@@ -1,3 +1,7 @@
+**Note:** The current repository is for a manuscript that is currently under review
+
+# ConnSearch
+
 The ConnSearch analyses are done using the `ConnSearcher` class, which can be found in `ConnSearch.ConnSearcher.py`. To run all the analyses used for the manuscript and to generate its visuals, a script has been provided, `scripts.run_all_ConnSearch.py`. It calls additional scripts in `scripts.group_level.py` and `scripts.subject_specific.py`.
 
 ## Modeling ConnSearch components
