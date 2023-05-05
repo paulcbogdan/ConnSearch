@@ -1,0 +1,1 @@
+These functions measure the accuracy of these connectomewide classification methods in predicting 2-back vs. 0-back. However, none of these were used for the final report.
