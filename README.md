@@ -39,7 +39,11 @@ The code also provides some features not emphasized in the manuscript. Two are n
 
 First, the scripts allow defining components based on proximity to a Core ROI (i.e., components are groups of ROIs close together), which is useful for analyses where effects are localized but MVPA searchlights do not span enough volume. This can be done by simply setting `proximal=True` in `group_level.py` or `subject_specific.py`.
 
-Second, the ConnSearch can be used to implement the analyses by Wu et al. (2021; Cerebral Cortex) in the context of task classification. Wu et al. (2021) describe a method where, for each ROI, a classifier is fit using all connections to that ROI as features - e.g., for a 264-ROI atlas, it fit 264 classifiers each with 263 features. The `ConnSearcher` class is capable of doing this analysis, and the functions provided in the scripts `group_level.py` and `subject_specific.py` can be used to run the analysis, by simply changing `wu_analysis=True` and `comp_size=None` (see also docstrings).
+Second, the ConnSearch can be used to implement the analyses by Wu et al. (2021; Cerebral Cortex) in the context of task classification. Wu et al. (2021) describe a method where, for each ROI, a classifier is fit using all connections to that ROI as features - e.g., for a 264-ROI atlas, it fit 264 classifiers each with 263 features. The `ConnSearcher` class is capable of doing this analysis, and the functions provided in the scripts `group_level.py` and `subject_specific.py` can be used to run the analysis, by simply changing `wu_analysis=True` and `comp_size=None` (see also docstrings). Just below, we illustrate one significant result using the Wu et al. (2021) method, applied to the present dataset and 2-back vs. 0-back classification problem.
+
+![results/Wu_Group/power_compNone_folds5_reps10_N50_acc0.633/pics/component_111_score0.644_black_combined.png](results/Wu_Group/power_compNone_folds5_reps10_N50_acc0.633/pics/component_111_score0.644_black_combined.png)
+
+Wu, J., Eickhoff, S. B., Hoffstaedter, F., Patil, K. R., Schwender, H., Yeo, B. T., & Genon, S. (2021). A connectivity-based psychometric prediction framework for brain–behavior relationship studies. Cerebral Cortex, 31(8), 3732-3751.
 
 ## Notes
 
