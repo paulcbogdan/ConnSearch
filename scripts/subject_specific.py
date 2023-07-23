@@ -101,8 +101,9 @@ def run_subject_ConnSearch(alpha_thresh=.05, override_existing=True, fwe=True,
         generate_component_table(fp_csv, dir_results)
 
     if make_ROI_plots:
+        dir_pics = os.path.join(pathlib.Path(dir_results).parent, 'pics')
         fp_ROI_plots = os.path.join(dir_results, 'ROI_plots.png')
-        plot_ConnSearch_ROI_scores(dir_results, fp_ROI_plots, group_level=True)
+        plot_ConnSearch_ROI_scores(dir_pics, fp_ROI_plots, group_level=True)
 
     # if alpha_thresh != 1:
     #     dir_pics = os.path.join(pathlib.Path(dir_results).parent, 'pics')
