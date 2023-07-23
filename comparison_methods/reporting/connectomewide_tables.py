@@ -30,7 +30,7 @@ def make_network_pair_table(top_rank_edges, fp_csv, coords,
     # idx_to_label maps each ROI to its corresponding Yeo atlas network label
     root_dir = pathlib.Path(__file__).parent.parent.parent
     fp_idx_to_label = fr'{root_dir}/pickle_cache/' \
-                      f'search{search_closest}_{atlas}_idx_to_label.pkl'
+                      f'search{search_closest}_{atlas}_idx_to_label_b.pkl'
     idx_to_label = utils.pickle_wrap(fp_idx_to_label,  # cache hastens future runs
                                      lambda: get_idx_to_label(coords,
                                                               search_closest=search_closest),
