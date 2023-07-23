@@ -145,7 +145,8 @@ def run_group_ConnSearch(n_splits=2, n_repeats=10, acc_thresh=None,
         generate_component_table(fp_csv, dir_results)
 
     if make_ROI_plots:
-        fp_ROI_plots = os.path.join(dir_results, 'ROI_plots.png')
+        dir_pics = os.path.join(pathlib.Path(dir_results).parent, 'pics')
+        fp_ROI_plots = os.path.join(dir_pics, 'ROI_plots.png')
         plot_ConnSearch_ROI_scores(dir_results, fp_ROI_plots, group_level=True)
 
 
