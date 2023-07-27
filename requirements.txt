@@ -1,0 +1,15 @@
+pathlib
+sklearn
+scikit-learn
+numpy
+pandas
+scipy
+matplotlib
+cycler
+nichord
+nilearn
+tqdm
+statsmodels
+ncfs
+numba
+openpyxl

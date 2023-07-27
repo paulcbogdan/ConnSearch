@@ -1,6 +1,12 @@
-**Note:** The current repository is for a manuscript that is currently under review
-
 # ConnSearch
+
+The present repo provides the code necessary to reproduce the primary results for the following manuscript:
+
+Bogdan, P., Iordan, A. D., Shobrook, J., & Dolcos, F. (2023). ConnSearch: A 
+    Framework for Functional Connectivity Analysis Designed for Interpretability
+    and Effectiveness at Limited Sample Sizes. *NeuroImage*, 120274.
+
+## Code overview
 
 The ConnSearch analyses are done using the `ConnSearcher` class, which can be found in `ConnSearch.ConnSearcher.py`. To run all the analyses used for the manuscript and to generate its visuals, a script has been provided, `scripts.run_all_ConnSearch.py`. It calls additional scripts in `scripts.group_level.py` and `scripts.subject_specific.py`.
 
@@ -27,15 +33,15 @@ The ConnSearch results are plotted in two ways: (1) Each component is plotted in
 Along with these visuals, the ConnSearch components are also reported as tables, using the functions in `ConnSearch.reporting.ConnSearch_tables.py`. These functions automatically assign network, regions, and Brodmann Area labels for each ROI based on its center coordinate (in MNI space). Tables 1 and 3 in the manuscript were made using these functions.
 
 
-## Other methods implemented for comparisons
+## Methods implemented for comparisons
 
 The neural patterns implicated by ConnSearch were compared those found by six other methods. Their code is `comparison_methods/`. These other methods include four techniques where users fit a connectomewide classifier and then interpret the classifier using various post hoc techniques. These consistent of recursive feature elimination (`RFE.py`), neighborhood component feature selection (`NCFS.py` & `NCFS_feature_cutoff.py`), connectome predictive modeling (`NBS.py`), kernel ridge regression with Haufe transformation (`Haufe.py`). Two frequentist methods were also implemented: network-based statistic (`NBS.py`) and paired t-tests (`ttest.py`). All of these implementations follow a similar structure. The focus is only on the plots and tables generated via interpretation analysis and not the accuracy of classifiers.
 
 The comparison methods can all be run using `scripts.run_comparison_methods.py`
 
-## Other features
+## Additional techniques
 
-The code also provides some features not emphasized in the manuscript. Two are notable.
+The code also provides some features not emphasized in the manuscript but used for preliminary analyses. Two are notable.
 
 First, the scripts allow defining components based on proximity to a Core ROI (i.e., components are groups of ROIs close together), which is useful for analyses where effects are localized but MVPA searchlights do not span enough volume. This can be done by simply setting `proximal=True` in `group_level.py` or `subject_specific.py`.
 
@@ -53,6 +59,6 @@ This repo sought to use commonly-used libraries wherever possible. However, all 
 
 The plots used for the manuscript use a modified version of `NiChord` (e.g., to generate the colorbar titles and to adjust colors/arcs to better show differences). These visual aspects required hardcoding, and said version of `NiChord` has not been pushed, meaning that your plots may look slightly different than those in the manuscript.
 
-As part of preliminary tests, we found that, `sklearn.model_selection.RepeatedStratifiedGroupKFold` has an issue in that it often doesn't find the most ideal stratification for each fold. You can find more details on the sklearn GitHub Issues page: https://github.com/scikit-learn/scikit-learn/issues/24656 (by the time you are reading this, I will hopefully moved along my posted GitHub issue). For now, the present code monkey patches the function to fix this issue. This is done in `ConnSearch.sklearn_monkeypatch.py` by redefining `RepeatedStratifiedGroupKFold`. The monkey patch is automatically executed when the `ConnSearcher.py` module is imported.
+As part of preliminary tests, we found that, `sklearn.model_selection.RepeatedStratifiedGroupKFold` has an issue in that it often doesn't find the most ideal stratification for each fold. This is particularly important for research likes ours where an emphasis is placed on whether accuracy beats chance. For now, the present code monkey patches the function to fix this issue. This is done in `ConnSearch.sklearn_monkeypatch.py` by redefining `RepeatedStratifiedGroupKFold`. The monkey patch is automatically executed when the `ConnSearcher.py` module is imported.
 
 The manuscript reports behavioral data on how well participants completed the N-back task. `scripts/run_WM_behavioral.py` generates these data. The script compares participant's accuracy across the five 50-participant groups used for the paper.
