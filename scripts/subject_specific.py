@@ -90,28 +90,26 @@ def run_subject_ConnSearch(alpha_thresh=.05, override_existing=True, fwe=True,
     CS.do_subject_specific_analysis(alpha_thresh, FWE=fwe,
                                     subtract_mean=subtract_mean)
 
-    if make_component_plots:
-        dir_pics = os.path.join(pathlib.Path(dir_results).parent, 'pics')
-        plot_components(dir_results, dir_pics)
-
     if make_table:
         fn_csv = f'ConnSearch_Subject-specific_{atlas}_{N}.csv'
         dir_table = pathlib.Path(dir_results).parent
         fp_csv = os.path.join(dir_table, fn_csv)
         generate_component_table(fp_csv, dir_results)
 
-    if make_ROI_plots:
+    if make_component_plots or make_ROI_plots:
         dir_pics = os.path.join(pathlib.Path(dir_results).parent, 'pics')
-        fp_ROI_plots = os.path.join(dir_results, 'ROI_plots.png')
-        plot_ConnSearch_ROI_scores(dir_pics, fp_ROI_plots, group_level=True)
+        if make_component_plots:
+            plot_components(dir_results, dir_pics)
 
-    # if alpha_thresh != 1:
-    #     dir_pics = os.path.join(pathlib.Path(dir_results).parent, 'pics')
-    #     plot_components(dir_results, dir_pics, cbar_title='Similarity')
-    #     fn_csv = f'ConnSearch_Subject_{atlas}_{N}.csv'
-    #     dir_table = pathlib.Path(dir_results).parent
-    #     fp_csv = os.path.join(dir_table, fn_csv)
-    #     generate_component_table(fp_csv, dir_results, score_name='t-value')
+        if make_ROI_plots:
+            fp_ROI_plots = os.path.join(dir_results, 'ROI_plots.png')
+            plot_ConnSearch_ROI_scores(dir_results, fp_ROI_plots,
+                                       group_level=True,
+                                       vmin=2.5, vmax=5.5, avg_ROIs=True)
+            # If avg_ROIs=True, the plots assign ROIs scores as the average of
+            #   all the components they contributed to.
+            # If avg_ROIs=False, assigns ROIs scores based solely on the
+            #   component for which they are the Core ROI.
 
 
 def run_subject_Power_50_dataset(comp_size=16, subtract_mean=False):
@@ -152,3 +150,4 @@ def run_subject_Schaefer1000_250_dataset(comp_size=16, subtract_mean=False):
 
 if __name__ == '__main__':
     run_subject_Power_50_dataset()
+    # run_subject_Schaefer1000_250_dataset()

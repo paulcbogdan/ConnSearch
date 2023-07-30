@@ -70,17 +70,21 @@ def plot_components(dir_results, dir_pics, clear_dir=True,
 
 def plot_ConnSearch_ROI_scores(dir_results, fp_out,
                                group_level=False,
-                               vmin=None, vmax=None):
+                               vmin=None, vmax=None,
+                               avg_ROIs=True):
     '''
     Plots the results of all the ConnSearch component models. Each ROI is a dot
         on a glass brain, where its color indicates the score (accuracy or
-        t-value) of the component for which the ROI is the Core ROI.
+        t-value) of the component that include the ROI.
     :param dir_results: str, directory where results will be loaded from
     :param fp_out: str, filepath to save the plot
     :param group_level: if True, sets the default vmin/vmax for group-level
         plotting. if False, sets the default vmin/vmax for subject-level.
     :param vmin: float, minimum value for the colorbar
     :param vmax: float, maximum value for the colorbar
+    :param avg_ROIs: bool, if True, assigns ROIs scores as the average of
+        all the components they contributed to. if False, assigns ROIs
+        scores based solely on the component for which they are the Core ROI.
     :return:
     '''
     fns = os.listdir(dir_results)
@@ -105,20 +109,24 @@ def plot_ConnSearch_ROI_scores(dir_results, fp_out,
         node_vals.append(score)
         node_coords.append(core_roi_coord)
 
-    node_vals_avg = []
-    node_coords_avg = []
-    for i in i2coord:
-        node_vals_avg.append(np.mean(i2accs[i]))
-        node_coords_avg.append(i2coord[i])
-    node_vals = node_vals_avg
-    node_coords = node_coords_avg
+    if avg_ROIs:
+        node_vals_avg = []
+        node_coords_avg = []
+        for i in i2coord:
+            node_vals_avg.append(np.mean(i2accs[i]))
+            node_coords_avg.append(i2coord[i])
+        node_vals = node_vals_avg
+        node_coords = node_coords_avg
+    else:
+        node_vals = np.array(node_vals)
+        node_coords = np.array(node_coords)
 
     if group_level:
         if vmax is None: vmax = .65
         if vmin is None: vmin = .555
     else:
-        if vmax is None: vmax = 3.5
-        if vmin is None: vmin = 1.7
+        if vmax is None: vmax = 5.5
+        if vmin is None: vmin = 2.5
     plot_ROI_scores(node_vals, node_coords, vmin=vmin, vmax=vmax,
                     fp_out=fp_out, title='', dpi=600)
 
