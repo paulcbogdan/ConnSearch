@@ -12,12 +12,16 @@ from sklearn.utils.multiclass import type_of_target
 
 '''
 In preparing this research, we identified an issue with
-    sklearn.model_selection.RepeatedStratifiedGroupKFold.
-    It wasn't achieving optimal stratification.
-The present code monkeypatches that class.
+    sklearn.model_selection.StratifiedGroupKFold. It wasn't achieving optimal 
+    stratification. The present code provides ConnSearch_StratifiedGroupKFold,
+    which yields better stratification.
+The code also provides RepeatedStratifiedGroupKFold, which repeats group k-fold
+    then averages across the repetitions, much like sklearn's other repeated-
+    k-fold classes.
 '''
 
-class ConnSearch_RepeatedStratifiedGroupKFold(_RepeatedSplits):
+
+class RepeatedStratifiedGroupKFold(_RepeatedSplits):
     def __init__(self, *, n_splits=5, n_repeats=10, random_state=None):
         super().__init__(
             ConnSearch_StratifiedGroupKFold,
@@ -28,8 +32,8 @@ class ConnSearch_RepeatedStratifiedGroupKFold(_RepeatedSplits):
 
 
 class ConnSearch_StratifiedGroupKFold(StratifiedGroupKFold):
-    def __init__(self, width, height, dpi):
-        super().__init__(width, height, dpi)
+    def __init__(self, n_splits=5, shuffle=False, random_state=None):
+        super().__init__(n_splits=n_splits, shuffle=shuffle, random_state=random_state)
 
     def _iter_test_indices(self, X, y, groups):
         rng = check_random_state(self.random_state)
@@ -148,10 +152,4 @@ class ConnSearch_StratifiedGroupKFold(StratifiedGroupKFold):
                     y_counts_per_fold[fold1] -= y_counts_per_group[group0]
                     y_counts_per_fold[fold1] += y_counts_per_group[group1]
                     y_counts_per_fold[fold0] -= y_counts_per_group[group1]
-        print('FAILED TO ACHIEVE IDEAL')
-
-
-def do_monkey_patch() -> None:
-    print('Monkeypatching sklearn.model_selection.RepeatedStratifiedGroupKFold\n')
-    sklearn.model_selection.RepeatedStratifiedGroupKFold = \
-        ConnSearch_RepeatedStratifiedGroupKFold
+        print('Failed to achieve ideal stratification')

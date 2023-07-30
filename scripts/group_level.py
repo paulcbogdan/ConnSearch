@@ -166,7 +166,7 @@ def run_group_Power_50_dataset(comp_size=16):
                          comp_size=comp_size,
                          atlas='power',
                          acc_thresh=None,  # Uses permutation-testing threshold
-                         make_component_plots=False,
+                         make_component_plots=True,
                          make_table=True,
                          make_ROI_plots=False,
                          override_existing=False
@@ -224,5 +224,5 @@ def run_Wu_Power_50_dataset(comp_size=None):
 
 
 if __name__ == '__main__':
-    run_Wu_Power_50_dataset()
-    # run_group_Power_50_dataset()
+    # run_Wu_Power_50_dataset()
+    run_group_Power_50_dataset()

@@ -1,3 +1,4 @@
 *.iml
 .idea
 .__pycache__
+/in_data/Power/power_n50_d0.pkl

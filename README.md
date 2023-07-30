@@ -8,7 +8,7 @@ Bogdan, P., Iordan, A. D., Shobrook, J., & Dolcos, F. (2023). ConnSearch: A
 
 ## Code overview
 
-The ConnSearch analyses are done using the `ConnSearcher` class, which can be found in `ConnSearch.ConnSearcher.py`. To run all the analyses used for the manuscript and to generate its visuals, a script has been provided, `scripts.run_all_ConnSearch.py`. It calls additional scripts in `scripts.group_level.py` and `scripts.subject_specific.py`.
+The ConnSearch analyses are done using the `ConnSearch.ConnSearcher` class. To run all the analyses used for the manuscript and to generate its visuals, a script has been provided, `scripts.run_all_ConnSearch.py`. It calls additional scripts in `scripts.group_level.py` and `scripts.subject_specific.py`.
 
 ## Modeling ConnSearch components
 
@@ -59,6 +59,6 @@ This repo sought to use commonly-used libraries wherever possible. However, all 
 
 The plots used for the manuscript use a modified version of `NiChord` (e.g., to generate the colorbar titles and to adjust colors/arcs to better show differences). These visual aspects required hardcoding, and said version of `NiChord` has not been pushed, meaning that your plots may look slightly different than those in the manuscript.
 
-As part of preliminary tests, we found that, `sklearn.model_selection.RepeatedStratifiedGroupKFold` has an issue in that it often doesn't find the most ideal stratification for each fold. This is particularly important for research likes ours where an emphasis is placed on whether accuracy beats chance. For now, the present code monkey patches the function to fix this issue. This is done in `ConnSearch.sklearn_monkeypatch.py` by redefining `RepeatedStratifiedGroupKFold`. The monkey patch is automatically executed when the `ConnSearcher.py` module is imported.
+We found that `sklearn.model_selection.StratifiedGroupKFold` has an issue in that it often doesn't find the most ideal stratification for each fold. This is particularly important for research likes ours where an emphasis is placed on whether accuracy beats chance. The present code fixes this in the new class `ConnSearch.crossval.ConnSearch_StratifiedGroupKFold`. In addition, the code provides `ConnSearch.crossval.RepeatedStratifiedGroupKFold`, which repeats the stratified group-k-fold and averages test accuracy across the repetitions.
 
 The manuscript reports behavioral data on how well participants completed the N-back task. `scripts/run_WM_behavioral.py` generates these data. The script compares participant's accuracy across the five 50-participant groups used for the paper.

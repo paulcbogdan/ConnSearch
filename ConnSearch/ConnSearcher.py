@@ -4,17 +4,14 @@ import warnings
 
 import numpy as np
 from sklearn.base import clone
-from sklearn.model_selection import cross_val_score, \
-    RepeatedStratifiedGroupKFold
+from sklearn.model_selection import cross_val_score
 from statsmodels.stats.multitest import multipletests
 from tqdm import tqdm
 
-from ConnSearch.apply_sklearn_monkeypatch import do_monkey_patch
+from ConnSearch.crossval import RepeatedStratifiedGroupKFold
 from ConnSearch.data_loading import get_groups
 from ConnSearch.fast_corrsim import corrsim_all_components
 from ConnSearch.utils import print_list_stats, get_t_graph
-
-do_monkey_patch()  # fixes issue in sklearn.model_selection.RepeatedStratifiedGroupKFold
 
 np.random.seed(0)
 
@@ -169,7 +166,7 @@ class ConnSearcher:
             Additionally, as we detail in the paper, using repeated k-fold permits
             greater sensitivity in the analyses. Further, we must stratify the
             data (equal proportions of Y in the training and testing sets).
-            This is accomplished via sklearn's RepeatedStratifiedGroupKFold
+            This is accomplished via RepeatedStratifiedGroupKFold
         To determine what the group-level accuracy threshold is needed for
             saving a component result, you can either pass an accuracy threshold
             (acc_thresh) or pass acc2p and an alpha threshold. acc2p is a
