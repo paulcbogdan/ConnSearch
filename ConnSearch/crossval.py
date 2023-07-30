@@ -153,3 +153,36 @@ class ConnSearch_StratifiedGroupKFold(StratifiedGroupKFold):
                     y_counts_per_fold[fold1] += y_counts_per_group[group1]
                     y_counts_per_fold[fold0] -= y_counts_per_group[group1]
         print('Failed to achieve ideal stratification')
+
+    def _find_best_fold(self, y_counts_per_fold, y_cnt, group_y_counts):
+        best_fold = None
+        min_eval = np.inf
+        min_samples_in_fold = np.inf
+        for i in range(self.n_splits):
+            y_counts_per_fold[i] += group_y_counts
+            # Summarise the distribution over classes in each proposed fold
+            std_per_class = np.std(y_counts_per_fold / y_cnt.reshape(1, -1), axis=0)
+            y_counts_per_fold[i] -= group_y_counts
+            fold_eval = np.mean(std_per_class)
+            samples_in_fold = np.sum(y_counts_per_fold[i])
+            is_current_fold_better = (
+                fold_eval < min_eval
+                or np.isclose(fold_eval, min_eval)
+                and samples_in_fold < min_samples_in_fold
+            )
+            if is_current_fold_better:
+                min_eval = fold_eval
+                min_samples_in_fold = samples_in_fold
+                best_fold = i
+        return best_fold
+
+    def _check_stratification_ideal(self, y_counts_per_fold, warn=False):
+        if y_counts_per_fold.shape[0] > 1:
+            first_fold = y_counts_per_fold[0]
+            for fold in y_counts_per_fold[1:]:
+                if not np.array_equal(first_fold, fold):
+                    if warn:
+                        warnings.warn('Folds are not perfectly stratified.',
+                                  UserWarning)
+                    return False
+        return True
