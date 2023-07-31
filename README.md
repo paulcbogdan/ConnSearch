@@ -6,9 +6,15 @@ Bogdan, P.C., Iordan, A. D., Shobrook, J., & Dolcos, F. (2023). ConnSearch: A
     Framework for Functional Connectivity Analysis Designed for Interpretability
     and Effectiveness at Limited Sample Sizes. *NeuroImage*, 120274.
 
+ConnSearch can also be installed as a package via:
+
+`pip install connsearch`
+
+The exact code corresponding to the package can be seen in [this other repo](https://github.com/paulcbogdan/ConnSearch-Package), which provides some additional functionality and has removed manuscript-specific code (e.g., implementing other methods to which ConnSearch was compared). 
+
 ## Code overview
 
-The ConnSearch analyses are done using the `ConnSearch.ConnSearcher` class. To run all the analyses used for the manuscript and to generate its visuals, a script has been provided, `scripts.run_all_ConnSearch.py`. It calls additional scripts in `scripts.group_level.py` and `scripts.subject_specific.py`. All of the code has been heavily commented, and present README provides a general overview of its organization.
+The ConnSearch analyses are done using the `ConnSearch.ConnSearcher` class. To run all the analyses used for the manuscript and to generate its visuals, a script has been provided, `scripts.run_all_ConnSearch.py`. It calls additional scripts in `scripts.group_level.py` and `scripts.subject_specific.py`. All of the code has been heavily commented, and present README provides a general overview of its organization. For a detailed walkthrough of how you can implement ConnSearch for your own analyses, see [the connsearch package repo](https://github.com/paulcbogdan/ConnSearch-Package).
 
 ## Modeling ConnSearch components
 

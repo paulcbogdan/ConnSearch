@@ -177,12 +177,14 @@ def get_t_graph(X, Y):
     '''
     Y_by_subj = Y.reshape((Y.shape[0], -1))
     X_by_subj = X.reshape((X.shape[0], -1, X.shape[3], X.shape[4]))
-    X0_subj_avg = avg_by_subj(X_by_subj, Y_by_subj, 0)  # (subject, ROI0, ROI1)
-    X1_subj_avg = avg_by_subj(X_by_subj, Y_by_subj, 1)  # (subject, ROI0, ROI1)
+    X0_subj_avg = avg_by_subj(X_by_subj, Y_by_subj, 0)  # shape = (subject, ROI0, ROI1)
+    X1_subj_avg = avg_by_subj(X_by_subj, Y_by_subj, 1)  # shape = (subject, ROI0, ROI1)
     M_dif_graph = np.mean(X1_subj_avg - X0_subj_avg, axis=0)
     std_dif_graph = np.std(X1_subj_avg - X0_subj_avg, axis=0, ddof=1)
     se_dif_graph = std_dif_graph / np.sqrt(X0_subj_avg.shape[0])
-    t_graph = M_dif_graph / se_dif_graph  # (ROI0, ROI1)
+    # Set the diagonal to 1, so we don't get a warning for dividing by 0 or NaN
+    se_dif_graph[np.diag_indices(se_dif_graph.shape[0])] = 1
+    t_graph = M_dif_graph / se_dif_graph  # shape = (ROI0, ROI1)
     return t_graph
 
 
